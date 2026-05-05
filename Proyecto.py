@@ -47,6 +47,7 @@ class Reserva:
 clientes = []
 servicios = []
 reservas = []
+
 while True:
     print("\n1. Registrar cliente")
     print("2. Crear servicio")
@@ -64,10 +65,10 @@ while True:
             print("Error: nombre vacío")
             continue
 
-        edad = input("Ingrese edad: ")
-
-        if not edad.isdigit():
-            print("Error: la edad debe ser número")
+        try:
+            edad = int(input("Ingrese edad: "))
+        except:
+            print("Error: la edad debe ser un número")
             continue
 
         cliente = Cliente(nombre, edad)
@@ -82,10 +83,10 @@ while True:
             print("Error: nombre vacío")
             continue
 
-        costo = input("Costo: ")
-
-        if not costo.replace('.', '', 1).isdigit():
-            print("Error: el costo debe ser número")
+        try:
+            costo = float(input("Costo: "))
+        except:
+            print("Error: el costo debe ser un número")
             continue
 
         servicio = Servicio(nombre, costo)
