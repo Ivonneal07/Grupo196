@@ -1,5 +1,5 @@
 # =========================
-# SISTEMA SOFTWARE FJ
+# SISTEMA SOFTWARE 
 # =========================
 
 # -------- CLASE CLIENTE --------
@@ -47,7 +47,6 @@ class Reserva:
 clientes = []
 servicios = []
 reservas = []
-
 while True:
     print("\n1. Registrar cliente")
     print("2. Crear servicio")
@@ -60,7 +59,16 @@ while True:
     # REGISTRAR CLIENTE
     if opcion == "1":
         nombre = input("Ingrese nombre: ")
+
+        if nombre == "":
+            print("Error: nombre vacío")
+            continue
+
         edad = input("Ingrese edad: ")
+
+        if not edad.isdigit():
+            print("Error: la edad debe ser número")
+            continue
 
         cliente = Cliente(nombre, edad)
         clientes.append(cliente)
@@ -69,7 +77,16 @@ while True:
     # CREAR SERVICIO
     elif opcion == "2":
         nombre = input("Nombre del servicio: ")
+
+        if nombre == "":
+            print("Error: nombre vacío")
+            continue
+
         costo = input("Costo: ")
+
+        if not costo.replace('.', '', 1).isdigit():
+            print("Error: el costo debe ser número")
+            continue
 
         servicio = Servicio(nombre, costo)
         servicios.append(servicio)
