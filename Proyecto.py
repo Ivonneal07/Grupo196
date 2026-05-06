@@ -2,15 +2,35 @@
 # SISTEMA SOFTWARE 
 # =========================
 
-# -------- CLASE CLIENTE --------
-class Cliente:
-    def __init__(self, nombre, edad):
-        # Se guardan los datos del cliente
-        self.nombre = nombre
-        self.edad = edad
+from abc import ABC, abstractmethod
 
-    def mostrar_cliente(self):
-        print("Cliente:", self.nombre, "| Edad:", self.edad)
+
+# -------- CLASE ABSTRACTA --------
+class Persona(ABC):
+    def __init__(self, nombre):
+        # Constructor de la clase Persona
+        self.nombre = nombre
+
+    @abstractmethod
+    def mostrar_datos(self):
+        pass
+
+
+# -------- CLASE CLIENTE --------
+class Cliente(Persona):
+    def __init__(self, nombre, edad):
+        super().__init__(nombre)  # Llamada a la clase padre
+        self.__nombre = nombre
+        self.__edad = edad
+
+    def get_nombre(self):
+        return self.__nombre
+
+    def get_edad(self):
+        return self.__edad
+
+    def mostrar_datos(self):
+        print("Cliente:", self.get_nombre(), "| Edad:", self.get_edad())
 
 
 # -------- CLASE SERVICIO --------
@@ -36,14 +56,19 @@ class Reserva:
 
     def mostrar_reserva(self):
         print("\n--- RESERVA ---")
-        self.cliente.mostrar_cliente()
+        self.cliente.mostrar_datos()
         self.servicio.mostrar_servicio()
         print("Estado:", self.estado)
 
 
+# -------- FUNCION LOGS --------
+def guardar_error(mensaje):
+    with open("errores.txt", "a") as archivo:
+        archivo.write(mensaje + "\n")
+
+
 # -------- PROGRAMA PRINCIPAL --------
 
-# Listas para guardar datos
 clientes = []
 servicios = []
 reservas = []
@@ -63,12 +88,14 @@ while True:
 
         if nombre == "":
             print("Error: nombre vacío")
+            guardar_error("Nombre vacío")
             continue
 
         try:
             edad = int(input("Ingrese edad: "))
         except:
             print("Error: la edad debe ser un número")
+            guardar_error("Error en edad")
             continue
 
         cliente = Cliente(nombre, edad)
@@ -81,12 +108,14 @@ while True:
 
         if nombre == "":
             print("Error: nombre vacío")
+            guardar_error("Nombre servicio vacío")
             continue
 
         try:
             costo = float(input("Costo: "))
         except:
             print("Error: el costo debe ser un número")
+            guardar_error("Error en costo")
             continue
 
         servicio = Servicio(nombre, costo)
@@ -97,6 +126,7 @@ while True:
     elif opcion == "3":
         if len(clientes) == 0 or len(servicios) == 0:
             print("Debe haber clientes y servicios primero")
+            guardar_error("Reserva sin datos")
         else:
             cliente = clientes[0]
             servicio = servicios[0]
