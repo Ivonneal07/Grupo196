@@ -76,7 +76,81 @@ class Servicio:
 
         print("Servicio:", self.nombre, "| Costo:", self.costo)
 
+# -------- HERENCIA Y POLIMORFISMO EN SERVICIOS --------
 
+class ReservaSala(Servicio):
+
+    def __init__(self, nombre, costo, horas):
+
+        super().__init__(nombre, costo)
+
+        self.horas = horas
+
+
+
+    def mostrar_servicio(self):
+
+        total = self.costo * self.horas
+
+        print("Servicio: Reserva de Sala")
+
+        print("Nombre:", self.nombre)
+
+        print("Horas reservadas:", self.horas)
+
+        print("Costo total:", total)
+
+
+
+
+
+class AlquilerEquipo(Servicio):
+
+    def __init__(self, nombre, costo, dias):
+
+        super().__init__(nombre, costo)
+
+        self.dias = dias
+
+
+
+    def mostrar_servicio(self):
+
+        total = self.costo * self.dias
+
+        print("Servicio: Alquiler de Equipo")
+
+        print("Nombre:", self.nombre)
+
+        print("Días de alquiler:", self.dias)
+
+        print("Costo total:", total)
+
+
+
+
+
+class AsesoriaEspecializada(Servicio):
+
+    def __init__(self, nombre, costo, especialista):
+
+        super().__init__(nombre, costo)
+
+        self.especialista = especialista
+
+
+
+    def mostrar_servicio(self):
+
+        total = self.costo + 100
+
+        print("Servicio: Asesoría Especializada")
+
+        print("Nombre:", self.nombre)
+
+        print("Especialista:", self.especialista)
+
+        print("Costo total:", total)
 
 # -------- EXCEPCIONES -------
 
@@ -355,13 +429,18 @@ while True:
 
 
 
-    # CREAR SERVICIO
+       # CREAR SERVICIO
 
     elif opcion == "2":
 
+        print("\nTipos de servicio:")
+        print("1. Reserva de Sala")
+        print("2. Alquiler de Equipo")
+        print("3. Asesoría Especializada")
+
+        tipo = input("Seleccione el tipo: ")
+
         nombre = input("Nombre del servicio: ")
-
-
 
         if nombre == "":
 
@@ -370,8 +449,6 @@ while True:
             guardar_error("Nombre servicio vacío")
 
             continue
-
-
 
         try:
 
@@ -387,7 +464,37 @@ while True:
 
 
 
-        servicio = Servicio(nombre, costo)
+        if tipo == "1":
+
+            horas = int(input("Horas de reserva: "))
+
+            servicio = ReservaSala(nombre, costo, horas)
+
+
+
+        elif tipo == "2":
+
+            dias = int(input("Días de alquiler: "))
+
+            servicio = AlquilerEquipo(nombre, costo, dias)
+
+
+
+        elif tipo == "3":
+
+            especialista = input("Nombre del especialista: ")
+
+            servicio = AsesoriaEspecializada(nombre, costo, especialista)
+
+
+
+        else:
+
+            print("Tipo inválido")
+
+            continue
+
+
 
         servicios.append(servicio)
 
