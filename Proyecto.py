@@ -94,7 +94,7 @@ class ParametrosInvalidosError(SoftwareFJError): pass
 
 class Reserva:
 
-    def __init__(self, cliente, servicio):
+    def __init__(self, cliente, servicio, pendiente):
 
         self.cliente = cliente
 
@@ -102,16 +102,13 @@ class Reserva:
 
         self.estado = "Pendiente"
 
-
-
     def confirmar(self):
 
         """Procesamiento con manejo de excepciones"""
 
         try:
 
-            # Validaciones
-
+        
             if self.cliente.get_edad() < 18:
 
                 raise ClienteMenorEdadError(f"{self.cliente.get_nombre()} es menor de edad.")
@@ -128,7 +125,7 @@ class Reserva:
 
         except (ClienteMenorEdadError, ParametrosInvalidosError) as e:
 
-            self.estado = "cancelada"
+            self.estado = "Cancelada"
 
             guardar_error(str(e))
 
@@ -164,10 +161,6 @@ class Reserva:
 
 
 
-   
-
-
-
     def mostrar_reserva(self):
 
         print("\n--- RESERVA ---")
@@ -176,11 +169,7 @@ class Reserva:
 
         self.servicio.mostrar_servicio()
 
-        print("Estado:", self.estado)
-
-
-
-
+    
 
 # -------- FUNCION LOGS --------
 
@@ -194,7 +183,7 @@ def guardar_error(mensaje):
 
 
 
-#---------VALIDACIONES-------
+#---------VALIDACIONES-----
 
 
 
@@ -216,8 +205,6 @@ class Reserva:
 
         try:
 
-            # Validaciones estrictas según requerimiento
-
             if self.cliente.get_edad() < 18:
 
                 raise ClienteMenorEdadError(f"{self.cliente.get_nombre()} es menor de edad.")
@@ -234,7 +221,7 @@ class Reserva:
 
         except (ClienteMenorEdadError, ParametrosInvalidosError) as e:
 
-            self.estado = "cancelada"
+            self.estado = "Cancelada"
 
             guardar_error(str(e))
 
@@ -294,7 +281,7 @@ def ejecutar_10_pruebas():
 
         r.confirmar()
 
-
+        reservas.append(r)
 
 
 
@@ -441,20 +428,17 @@ while True:
                 # 2. Creamos la reserva con los 3 datos
 
                 reserva = Reserva(cliente, servicio, valor_duracion)
-
-               
+   
 
                 # 3. Validamos
 
                 reserva.confirmar()
 
-               
 
                 # 4. Guardamos
 
                 reservas.append(reserva)
-
-               
+ 
 
             except ValueError:
 
@@ -474,9 +458,7 @@ while True:
 
         for r in reservas:
 
-            r.mostrar_reserva()
-
-       
+            r.mostrar_reserva()  
 
     # EJECUTAR PRUEBAS
 
@@ -495,3 +477,5 @@ while True:
     else:
 
         print("Opción inválida")
+
+    
