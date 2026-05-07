@@ -318,44 +318,36 @@ class Reserva:
 #-------- 10 PRUEBAS AUTOMATICAS"
 
 
-
 def ejecutar_10_pruebas():
-
+    
+    global reservas 
+    
     print("\n" + "="*45)
-
-    print("SIMULACIÓN DE 10 OPERACIONES AUTOMÁTICAS")
+    print("INICIANDO PRUEBAS...")
+    print("="*45)
+    
+    c_ok = Cliente("Andrés García", 25)
+    c_no = Cliente("Juanito", 15)
+    s_test = Servicio("Prueba", 100.0)
+    
+    casos = [
+        (c_ok, s_test, 3), (c_no, s_test, 1), (c_ok, s_test, 0),
+        (c_ok, s_test, 5), (c_no, s_test, 2), (c_ok, s_test, -1),
+        (c_ok, s_test, 1), (c_ok, s_test, 10), (c_no, s_test, 4),
+        (c_ok, s_test, 2)
+    ]
+    
+    for i, (cli, ser, dur) in enumerate(casos, 1):
+        try:
+            print(f"Prueba #{i}:", end=" ")
+            r = Reserva(cli, ser, dur)
+            r.confirmar()
+            reservas.append(r)
+        except Exception as e:
+            print(f"Error inesperado en prueba: {e}")
 
     print("="*45)
-
-    c_ok = Cliente("Andrés García", 25)
-
-    c_no = Cliente("Juanito", 15)
-
-    s_test = Servicio("Asesoría Especializada", 200.0)
-
-   
-
-    casos = [
-
-        (c_ok, s_test, 3), (c_no, s_test, 1), (c_ok, s_test, 0),
-
-        (c_ok, s_test, 5), (c_no, s_test, 2), (c_ok, s_test, -1),
-
-        (c_ok, s_test, 1), (c_ok, s_test, 10), (c_no, s_test, 4),
-
-        (c_ok, s_test, 2)
-
-    ]
-
-    for i, (cli, ser, dur) in enumerate(operaciones := casos, 1):
-
-        print(f"Prueba #{i}:", end=" ")
-
-        r = Reserva(cli, ser, dur)
-
-        r.confirmar()
-
-        reservas.append(r)
+    input("Pruebas terminadas. Presiona Enter para continuar...")
 
 
 
